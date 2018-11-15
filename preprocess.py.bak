@@ -8,7 +8,7 @@ def read_instances_from_file(inst_file, max_sent_len, keep_case):
 
     word_insts = []
     trimmed_sent_count = 0
-    with open(inst_file,encoding='utf-8') as f:
+    with open(inst_file) as f:
         for sent in f:
             if not keep_case:
                 sent = sent.lower()
@@ -22,11 +22,11 @@ def read_instances_from_file(inst_file, max_sent_len, keep_case):
             else:
                 word_insts += [None]
 
-    print(('[Info] Get {} instances from {}'.format(len(word_insts), inst_file)))
+    print('[Info] Get {} instances from {}'.format(len(word_insts), inst_file))
 
     if trimmed_sent_count > 0:
-        print(('[Warning] {} instances are trimmed to the max sentence length {}.'
-              .format(trimmed_sent_count, max_sent_len)))
+        print('[Warning] {} instances are trimmed to the max sentence length {}.'
+              .format(trimmed_sent_count, max_sent_len))
 
     return word_insts
 
@@ -34,7 +34,7 @@ def build_vocab_idx(word_insts, min_word_count):
     ''' Trim vocab by number of occurence '''
 
     full_vocab = set(w for sent in word_insts for w in sent)
-    print(('[Info] Original Vocabulary size =', len(full_vocab)))
+    print('[Info] Original Vocabulary size =', len(full_vocab))
 
     word2idx = {
         Constants.BOS_WORD: Constants.BOS,
@@ -49,16 +49,16 @@ def build_vocab_idx(word_insts, min_word_count):
             word_count[word] += 1
 
     ignored_word_count = 0
-    for word, count in list(word_count.items()):
+    for word, count in word_count.items():
         if word not in word2idx:
             if count > min_word_count:
                 word2idx[word] = len(word2idx)
             else:
                 ignored_word_count += 1
 
-    print(('[Info] Trimmed vocabulary size = {},'.format(len(word2idx)),
-          'each with minimum occurrence = {}'.format(min_word_count)))
-    print(("[Info] Ignored word count = {}".format(ignored_word_count)))
+    print('[Info] Trimmed vocabulary size = {},'.format(len(word2idx)),
+          'each with minimum occurrence = {}'.format(min_word_count))
+    print("[Info] Ignored word count = {}".format(ignored_word_count))
     return word2idx
 
 def convert_instance_to_idx_seq(word_insts, word2idx):
@@ -156,7 +156,7 @@ def main():
             'src': valid_src_insts,
             'tgt': valid_tgt_insts}}
 
-    print(('[Info] Dumping the processed data to pickle file', opt.save_data))
+    print('[Info] Dumping the processed data to pickle file', opt.save_data)
     torch.save(data, opt.save_data)
     print('[Info] Finish.')
 
