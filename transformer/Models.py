@@ -200,8 +200,6 @@ class Transformer(nn.Module):
     def forward(self, src_seq, src_pos, tgt_seq, tgt_pos):
 
         tgt_seq, tgt_pos = tgt_seq[:, :-1], tgt_pos[:, :-1]
-        print('tgt_seq[:2]:',tgt_seq[:2])
-        print('tgt_pos[:2]:',tgt_pos[:2])
 
         enc_output, *_ = self.encoder(src_seq, src_pos)
         dec_output, *_ = self.decoder(tgt_seq, tgt_pos, src_seq, enc_output)
