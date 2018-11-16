@@ -193,7 +193,7 @@ def main():
     ''' Main function '''
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-data', required=True)
+    parser.add_argument('-data', default="data/multi30k.atok.low.pt")
 
     parser.add_argument('-epoch', type=int, default=10)
     parser.add_argument('-batch_size', type=int, default=64)
@@ -213,7 +213,7 @@ def main():
     parser.add_argument('-proj_share_weight', action='store_true')
 
     parser.add_argument('-log', default=None)
-    parser.add_argument('-save_model', default=None)
+    parser.add_argument('-save_model', default="trained")
     parser.add_argument('-save_mode', type=str, choices=['all', 'best'], default='best')
 
     parser.add_argument('-no_cuda', action='store_true')
