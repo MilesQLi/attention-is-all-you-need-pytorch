@@ -122,16 +122,27 @@ class Decoder(nn.Module):
             for _ in range(n_layers)])
 
     def forward(self, tgt_seq, tgt_pos, src_seq, enc_output, return_attns=False):
+        '''
+        About masks:
+        non_pad_mask is in charge of mask quest
+        others masks key: 0 for non-pad 1 for pad   so for attention, you just need this since you need to softmax and sum only the key-value for each query
+        '''
 
         dec_slf_attn_list, dec_enc_attn_list = [], []
 
         # -- Prepare masks
+        # with an addtional first dimension of length of every output sequence   (1,batch_size,seq_length)  1 represents real 0 padd
         non_pad_mask = get_non_pad_mask(tgt_seq)
-
+        
+        # get (batch_size, length_of_padded(length of key), length_of_padded(length of key)) each of the matrix is an upper-triangle 
         slf_attn_mask_subseq = get_subsequent_mask(tgt_seq)
+        
+        # get (batch_size, length of query(=length of key), length of key) padding which is the original (batch_size, length of key) copys length of query for target attention
         slf_attn_mask_keypad = get_attn_key_pad_mask(seq_k=tgt_seq, seq_q=tgt_seq)
+        # as long as one of them is larger than 0, it is not zero
         slf_attn_mask = (slf_attn_mask_keypad + slf_attn_mask_subseq).gt(0)
 
+        # get (batch_size, length of query(=length of key), length of key) padding which is the original (batch_size, length of key) copys length of query for src attention
         dec_enc_attn_mask = get_attn_key_pad_mask(seq_k=src_seq, seq_q=tgt_seq)
 
         # -- Forward
