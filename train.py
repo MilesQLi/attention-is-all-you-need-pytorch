@@ -72,6 +72,12 @@ def train_epoch(model, training_data, optimizer, device, smoothing):
         # forward
         optimizer.zero_grad()
         pred = model(src_seq, src_pos, tgt_seq, tgt_pos)
+        
+        print(src_seq)
+        
+        print(src_pos)
+        
+        raise
 
         # backward
         loss, n_correct = cal_performance(pred, gold, smoothing=smoothing)

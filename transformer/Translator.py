@@ -145,7 +145,7 @@ class Translator(object):
             #-- Prepare beams
             inst_dec_beams = [Beam(n_bm, device=self.device) for _ in range(n_inst)]
 
-            #-- Bookkeeping for active or not
+            #-- Bookkeeping for active or not     some instance in a batch may finish earlier
             active_inst_idx_list = list(range(n_inst))
             inst_idx_to_position_map = get_inst_idx_to_tensor_position_map(active_inst_idx_list)
 

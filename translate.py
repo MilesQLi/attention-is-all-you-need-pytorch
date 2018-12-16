@@ -14,11 +14,11 @@ def main():
 
     parser = argparse.ArgumentParser(description='translate.py')
 
-    parser.add_argument('-model', required=True,
+    parser.add_argument('-model', default='trained.chkpt',
                         help='Path to model .pt file')
-    parser.add_argument('-src', required=True,
+    parser.add_argument('-src', default='data/multi30k/test.en.atok',
                         help='Source sequence to decode (one line per sequence)')
-    parser.add_argument('-vocab', required=True,
+    parser.add_argument('-vocab', default='data/multi30k.atok.low.pt',
                         help='Source sequence to decode (one line per sequence)')
     parser.add_argument('-output', default='pred.txt',
                         help="""Path to output the predictions (each line will
